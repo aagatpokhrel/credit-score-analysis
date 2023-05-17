@@ -84,6 +84,19 @@ function App() {
     setActiveTab((prevTab) => prevTab + 1);
   };
 
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const searchQuery = event.target.elements.query.value;
+    axios
+      .get(`http://localhost:5000/search?query=${searchQuery}`)
+      .then((response) => {
+        console.log(response.data); // handle the search results
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -114,6 +127,16 @@ function App() {
   };
   return (
     <div className="App">
+      <header>
+        <nav>
+          <div className="search-container">
+            <form onSubmit={handleSearch}>
+              <input type="text" name="query" placeholder="Search SSN" />
+              <button type="submit" class="button search">Generate</button>
+            </form>
+          </div>
+        </nav>
+      </header>
       <div className="tab-container">
         <div
           className={`tab ${activeTab === 1 ? 'active' : ''}`}
