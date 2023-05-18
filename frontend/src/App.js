@@ -84,6 +84,43 @@ function App() {
     setActiveTab((prevTab) => prevTab + 1);
   };
 
+  const handleResponse = (data) => {
+    // Access the score and report card from the response data
+    const score_ = data.score;
+    const report = data.report;
+    
+    const reportContainer = document.getElementById('report');
+
+    // Create a card element
+    const reportCard = document.createElement('div');
+    reportCard.className = 'card';
+
+    // Extract the report data
+    const { name, address, score, seniority, age } = report;
+
+    // Create HTML content for the report card
+    const reportContent = `
+      <h2>Report</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Address:</strong> ${address}</p>
+      <p><strong>Score:</strong> ${score_}</p>
+      <p><strong>Seniority:</strong> ${seniority}</p>
+      <p><strong>Age:</strong> ${age}</p>
+    `;
+
+    // Set the HTML content of the report card
+    reportCard.innerHTML = reportContent;
+
+    // Clear any previous content in the report container
+    reportContainer.innerHTML = '';
+
+    // Append the report card to the report container
+    reportContainer.appendChild(reportCard);
+    // Update the DOM to display the score and report card
+    document.getElementById('score').innerText = `Score: ${score}`;
+    // document.getElementById('report').innerText = `Report: ${JSON.stringify(report)}`;
+  }
+  
   const handleSearch = (event) => {
     event.preventDefault();
     const searchQuery = event.target.elements.query.value;
@@ -91,15 +128,16 @@ function App() {
       .get(`http://localhost:5000/search?query=${searchQuery}`)
       .then((response) => {
         console.log(response.data); // handle the search results
+        handleResponse(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
   };
-
+  
   const handleSubmit = (event) => {
     event.preventDefault();
-
+  
     axios
       .post('http://localhost:5000/credit-score', {
         fullName,
@@ -119,12 +157,14 @@ function App() {
         averageOverdueTime,
       })
       .then((response) => {
-        console.log(response.data); // handle the response from the backend
+        console.log(response.data);
+        handleResponse(response.data); // handle the response from the backend
       })
       .catch((error) => {
         console.error(error);
       });
   };
+  
   return (
     <div className="App">
       <header>
@@ -328,6 +368,10 @@ function App() {
             </form>
           </div>
         )}
+        </div>
+        <div className='other-container'>
+          <p id="score"></p>
+          <div id="report"></div>
         </div>
       </div>
   );
