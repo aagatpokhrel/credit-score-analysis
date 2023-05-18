@@ -36,11 +36,22 @@ def generate_report(input_data):
     predicted_data = predict(data, processed_input_data)
     # create the report
     report = {
-        "name": input_data["fullName"],
-        "address": input_data["address"],
-        "score": predicted_data[0],
-        "seniority": input_data["seniority"],
-        "age": input_data["dateOfBirth"],
+        "personal_details": {
+            "name": input_data["fullName"],
+            "address": input_data["address"],
+            "phone_number": input_data["phoneNumber"],
+            "age": input_data["dateOfBirth"],
+            "seniority": input_data["seniority"],
+        },
+
+        "financial_details": {
+            "ssn": input_data["ssn"],
+            "income": input_data["income"],
+            "expenses": input_data["expenses"],
+            "assets": input_data["assets"],
+            "debt": input_data["debt"],
+            "score": predicted_data[0],
+        }
     }
     # return the report and score
     return report, predicted_data[0]

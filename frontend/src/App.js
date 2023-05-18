@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import { SHA256 } from 'crypto-js';
+
 
 function App() {
   const [activeTab, setActiveTab] = useState(1);
@@ -11,7 +13,7 @@ function App() {
   const [address, setAddress] = useState('');
   const [maritalStatus, setMaritalStatus] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [ssn, setSSN] = useState('');
+  const [ssn_, setSSN] = useState('');
   const [expenses, setExpenses] = useState(0);
   const [income, setIncome] = useState(0);
   const [assets, setAssets] = useState(0);
@@ -97,16 +99,23 @@ function App() {
     reportCard.className = 'card';
 
     // Extract the report data
-    const { name, address, score, seniority, age } = report;
+    const { name, address, phone_number, age, seniority } = report['personal_details'];
+    const { ssn, income, expenses, assets, debt, score } = report['financial_details'];
 
     // Create HTML content for the report card
     const reportContent = `
-      <h2>Report</h2>
+      <h2>Personal Details</h2>
       <p><strong>Name:</strong> ${name}</p>
       <p><strong>Address:</strong> ${address}</p>
-      <p><strong>Score:</strong> ${score_}</p>
+      <p><strong>Phone Number:</strong> ${phone_number}</p>
       <p><strong>Seniority:</strong> ${seniority}</p>
       <p><strong>Age:</strong> ${age}</p>
+      <h2> Financial Details</h2>
+      <p><strong>Income:</strong> ${income}K</p>
+      <p><strong>Expenses:</strong> ${expenses}K</p>
+      <p><strong>Assets:</strong> ${assets}K</p>
+      <p><strong>Debt:</strong> ${debt}K</p>
+      <p><strong>Score:</strong> ${score_}</p>
     `;
 
     // Set the HTML content of the report card
@@ -124,7 +133,8 @@ function App() {
   
   const handleSearch = (event) => {
     event.preventDefault();
-    const searchQuery = event.target.elements.query.value;
+    const ssn_val = event.target.elements.query.value;
+    var searchQuery = SHA256(ssn_val).toString();;
     axios
       .get(`http://localhost:5000/search?query=${searchQuery}`)
       .then((response) => {
@@ -138,7 +148,7 @@ function App() {
   
   const handleSubmit = (event) => {
     event.preventDefault();
-  
+    var ssn = SHA256(ssn_).toString();;
     axios
       .post('http://localhost:5000/credit-score', {
         fullName,
@@ -293,7 +303,7 @@ function App() {
                 <label>SSN (Social Security Number)</label>
                 <input
                   type="text"
-                  value={ssn}
+                  value={ssn_}
                   onChange={handleSSNChange}
                   required
                 />

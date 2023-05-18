@@ -7,7 +7,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(100))
     address = db.Column(db.String(100))
     phone_number = db.Column(db.String(20))
-    social_security_number = db.Column(db.String(100))
+    social_security_number = db.Column(db.String(256))
     seniority = db.Column(db.Integer)
     home = db.Column(db.Boolean)
     age = db.Column(db.Integer)
