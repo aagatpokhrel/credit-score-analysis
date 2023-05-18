@@ -20,6 +20,7 @@ function App() {
   const [paidBeforeDeadline, setPaidBeforeDeadline] = useState(0);
   const [averageOverdueTime, setAverageOverdueTime] = useState(0);
 
+  //necessary functions for all the events
   const handleFullNameChange = (event) => {
     setFullName(event.target.value);
   };

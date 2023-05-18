@@ -1,6 +1,7 @@
 from app import db
 from flask_login import UserMixin
 
+# User model
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
@@ -19,6 +20,7 @@ class User(db.Model, UserMixin):
     times_paid_on_time = db.Column(db.Integer)
     avg_overdue_time = db.Column(db.Float)
 
+    # constructor
     def __init__(self, social_security_number, name, address, phone_number, seniority, home, age,
                  marital, expenses, income, assets, debt, time, times_paid_on_time, avg_overdue_time):
         self.name = name
@@ -37,6 +39,7 @@ class User(db.Model, UserMixin):
         self.times_paid_on_time = times_paid_on_time
         self.avg_overdue_time = avg_overdue_time
 
+    # return the user as a dictionary
     def return_dict(self):
         return {
             "fullName": self.name,
