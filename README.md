@@ -90,11 +90,15 @@ npm start
 
 Then in the frontend you fill all the details required, including personal as well as financial details.
 
-![Screenshot]('ui.png')
+![Screenshot](ui.png)
 
 And then submit the form to get the results as
 
-![Screenshot]('result.png')
+![Screenshot](result.png)
+
+Similarly search can also be performed on the previously stored data through SSNs
+
+![Screenshot](search.png)
 
 
 ## API Reference
